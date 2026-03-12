@@ -12,14 +12,6 @@ class Tree {
     this.root = buildTree(this.array);
   }
 
-  print(value, root = this.root) {
-    if (root === null) return;
-
-    this.print(value, root.left);
-    console.log(root.data);
-    this.print(value, root.right);
-  }
-
   includes(value, root = this.root) {
     if (root === null) return false;
     if (root.data === value) return true;
@@ -30,6 +22,20 @@ class Tree {
       return this.includes(value, root.right);
     }
   }
+
+  insert(value, root = this.root) {
+    if (this.includes(value)) return;
+
+    if (root === null) return new Node(value);
+
+    if (value < root.data) {
+      root.left = this.insert(value, root.left);
+    } else {
+      root.right = this.insert(value, root.right);
+    }
+    return root;
+  }
+
 };
 
 function buildTree(array, start = 0, end = array.length - 1) {
@@ -59,4 +65,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
 console.log(tree.includes(9));
+tree.insert(2);
+prettyPrint(tree.root);
 
