@@ -36,7 +36,37 @@ class Tree {
     return root;
   }
 
+
+  delete(value, root = this.root) {
+    if (root === null) return root;
+
+    if (value < root.data) {
+      root.left = this.delete(value, root.left);
+    } else if (value > root.data) {
+      root.right = this.delete(value, root.right);
+    } else {
+      //value match with root.data here;
+      //Node with 0 or 1 child;
+      if (root.left === null) return root.right;
+      if (root.right === null) return root.left;
+
+      //Node with 2 children;
+      const succ = getScucessor(root);
+      root.data = succ.data;
+      root.right = this.delete(succ.data, root.right);
+    }
+    return root;
+  }
+
 };
+
+function getScucessor(curr) {
+  curr = curr.right;
+  while (curr !== null && curr.left !== null) {
+    curr = curr.left;
+  }
+  return curr;
+}
 
 function buildTree(array, start = 0, end = array.length - 1) {
 
@@ -50,7 +80,6 @@ function buildTree(array, start = 0, end = array.length - 1) {
   return root;
 }
 
-//prettyPrint function for visualising;
 const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null || node === undefined) {
     return;
@@ -65,6 +94,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
 console.log(tree.includes(9));
-tree.insert(2);
+tree.delete(4);
 prettyPrint(tree.root);
 
