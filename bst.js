@@ -24,14 +24,15 @@ class Tree {
   }
 
   insert(value, root = this.root) {
-    if (this.includes(value)) return;
 
     if (root === null) return new Node(value);
 
     if (value < root.data) {
       root.left = this.insert(value, root.left);
-    } else {
+    } else if (value > root.data) {
       root.right = this.insert(value, root.right);
+    } else {
+      return root;
     }
     return root;
   }
@@ -138,6 +139,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
 console.log(tree.includes(9));
-tree.postOrderForEach(item => console.log(item));
+tree.insert(3);
+// tree.postOrderForEach(item => console.log(item));
 prettyPrint(tree.root);
 
