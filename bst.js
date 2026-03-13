@@ -73,7 +73,33 @@ class Tree {
       if (curr.left !== null) que.push(curr.left);
       if (curr.right !== null) que.push(curr.right);
     }
+  }
 
+  inOrderForEach(callback, root = this.root) {
+    if (!callback) throw new Error('Callback required');
+    if (root === null) return;
+
+    this.inOrderForEach(callback, root.left);
+    callback(root.data);
+    this.inOrderForEach(callback, root.right);
+  }
+
+  preOrderForEach(callback, root = this.root) {
+    if (!callback) throw new Error('Callback required');
+    if (root === null) return;
+
+    callback(root.data);
+    this.preOrderForEach(callback, root.left);
+    this.preOrderForEach(callback, root.right);
+  }
+
+  postOrderForEach(callback, root = this.root) {
+    if (!callback) throw new Error('Callback required');
+    if (root === null) return;
+
+    this.postOrderForEach(callback, root.left);
+    this.postOrderForEach(callback, root.right);
+    callback(root.data);
   }
 
 };
@@ -112,6 +138,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
 console.log(tree.includes(9));
-tree.levelOrderForEach(item => console.log(item / 2));
+tree.postOrderForEach(item => console.log(item));
 prettyPrint(tree.root);
 
