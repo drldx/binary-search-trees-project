@@ -58,6 +58,24 @@ class Tree {
     return root;
   }
 
+  levelOrderForEach(callback, root = this.root) {
+    if (!callback) throw new Error('Callback is required.');
+    if (root === null) return;
+
+    let que = [];
+    que.push(root);
+    while (que.length !== 0) {
+      let curr = que.shift();
+
+      callback(curr.data);
+      // console.log(curr.data);
+
+      if (curr.left !== null) que.push(curr.left);
+      if (curr.right !== null) que.push(curr.right);
+    }
+
+  }
+
 };
 
 function getScucessor(curr) {
@@ -94,6 +112,6 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
 console.log(tree.includes(9));
-tree.delete(4);
+tree.levelOrderForEach(item => console.log(item / 2));
 prettyPrint(tree.root);
 
