@@ -115,8 +115,8 @@ class Tree {
   }
 
   height(value, root = this.getRoot(value)) {
-    if (root === null) return 0;
-    if (root === undefined) return;
+    if (root === null) return -1;
+    if (!root) return;
 
     let left = this.height(value, root.left);
     let right = this.height(value, root.right);
@@ -139,8 +139,39 @@ class Tree {
     }
   }
 
+  isBalanced(root = this.root) {
+    if (root === null) return true;
+
+    let left = nodeHeight(root.left);
+    let right = nodeHeight(root.right);
+
+    if (Math.abs(left - right) > 1) return false;
+
+    return (this.isBalanced(root.left) && this.isBalanced(root.right));
+  }
+
+  reBalance(root = this.root) {
+    if (root === null) return;
+    let valArray = [];
+    if (this.isBalanced(root)) {
+      return;
+    } else {
+      this.inOrderForEach(item => valArray.push(item));
+      this.root = buildTree(valArray);
+    }
+  }
+
 };
 
+
+function nodeHeight(root) {
+  if (root === null) return -1;
+
+  let left = nodeHeight(root.left);
+  let right = nodeHeight(root.right);
+
+  return Math.max(left, right) + 1;
+}
 
 function getScucessor(curr) {
   curr = curr.right;
@@ -173,10 +204,12 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 }
 
 
-const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-console.log(tree.includes(9));
-tree.insert(356);
-console.log(tree.height(0));
+// const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
+//console.log(tree.includes(9));
+console.log(tree.isBalanced())
+prettyPrint(tree.root);
+tree.reBalance();
 // tree.inOrderForEach(item => console.log(item));
 prettyPrint(tree.root);
 
