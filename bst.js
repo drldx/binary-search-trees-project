@@ -206,7 +206,7 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 function driver() {
   const randomNums = () => {
     let array = [];
-    let i = Math.floor(Math.random() * 10);
+    let i = Math.floor(Math.random() * 20) + 1;
     while (i > 0) {
       array.push(Math.floor(Math.random() * 100));
       i--;
