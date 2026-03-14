@@ -203,13 +203,52 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true);
 }
 
+function driver() {
+  const randomNums = () => {
+    let array = [];
+    let i = Math.floor(Math.random() * 10);
+    while (i > 0) {
+      array.push(Math.floor(Math.random() * 100));
+      i--;
+    }
+    return array;
+  }
 
-// const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-const tree = new Tree([1, 2, 3, 4, 5, 6, 7, 8]);
-//console.log(tree.includes(9));
-console.log(tree.isBalanced())
-prettyPrint(tree.root);
-tree.reBalance();
-// tree.inOrderForEach(item => console.log(item));
-prettyPrint(tree.root);
+  let tree = new Tree(randomNums());
+
+  const traversal = () => {
+    console.log("isBalanced: " + tree.isBalanced());
+    console.log('level Order: ');
+    tree.levelOrderForEach(item => console.log(item));
+    console.log('pre Order: ');
+    tree.preOrderForEach(item => console.log(item));
+    console.log('in Order: ');
+    tree.inOrderForEach(item => console.log(item));
+    console.log('post Order: ');
+    tree.postOrderForEach(item => console.log(item));
+  }
+
+  traversal();
+
+  console.log('unbalancing....');
+  tree.insert(101);
+  tree.insert(103);
+  tree.insert(108);
+  tree.insert(118);
+
+
+  prettyPrint(tree.root);
+
+  console.log('isBalanced: ' + tree.isBalanced());
+
+  console.log('rebalancing...')
+  tree.reBalance();
+
+  prettyPrint(tree.root)
+
+  traversal();
+
+}
+
+driver();
 
