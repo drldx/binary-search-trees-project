@@ -103,7 +103,44 @@ class Tree {
     callback(root.data);
   }
 
+  getRoot(val, root = this.root) {
+    if (root === null) return;
+    if (root.data === val) return root;
+
+    if (val < root.data) {
+      return this.getRoot(val, root.left);
+    } else {
+      return this.getRoot(val, root.right);
+    }
+  }
+
+  height(value, root = this.getRoot(value)) {
+    if (root === null) return 0;
+    if (root === undefined) return;
+
+    let left = this.height(value, root.left);
+    let right = this.height(value, root.right);
+
+    return Math.max(left, right) + 1;
+  }
+
+  depth(value, root = this.root, count = -1) {
+    if (!this.includes(value)) return;
+    if (root === null) return count;
+
+    count += 1;
+
+    if (value < root.data) {
+      return this.depth(value, root.left, count);
+    } else if (value > root.data) {
+      return this.depth(value, root.right, count);
+    } else {
+      return count;
+    }
+  }
+
 };
+
 
 function getScucessor(curr) {
   curr = curr.right;
@@ -137,9 +174,9 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
 
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(tree.root);
 console.log(tree.includes(9));
-tree.insert(3);
-// tree.postOrderForEach(item => console.log(item));
+tree.insert(356);
+console.log(tree.height(0));
+// tree.inOrderForEach(item => console.log(item));
 prettyPrint(tree.root);
 
